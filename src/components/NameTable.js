@@ -8,7 +8,7 @@ import {
   DropdownItem
 } from "reactstrap";
 import AddNew from "./AddNew";
-
+import DynamicInput from "./DynamicInput";
 class NameTable extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +32,7 @@ class NameTable extends Component {
     this.dropDownSelect = this.dropDownSelect.bind(this);
     this.enablePerson = this.enablePerson.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.updateProperty = this.updateProperty.bind(this);
     this.updateVacation = this.updateVacation.bind(this);
   }
 
@@ -58,6 +59,17 @@ class NameTable extends Component {
     this.setState(prevState => ({
       dropdownOpen: !prevState.dropdownOpen
     }));
+  }
+
+  updateProperty(id, property, value, cb = () => {}) {
+    const people = this.state.people.map(person => {
+      console.log(person._id, id);
+      if (person._id === id) {
+        person[property] = value;
+      }
+      return person;
+    });
+    this.setState({ people }, cb());
   }
 
   updateVacation(event) {
@@ -95,10 +107,31 @@ class NameTable extends Component {
               return (
                 <tr key={person._id}>
                   <th scope="row">{i + 1}</th>
-                  <td>{person.firstName}</td>
-                  <td>{person.lastName}</td>
-                  <td>{person.role}</td>
-                  <td>{person.startDate}</td>
+                  <DynamicInput
+                    value={person.firstName}
+                    id={person._id}
+                    property="firstName"
+                    updateProperty={this.updateProperty}
+                  />
+                  <DynamicInput
+                    value={person.lastName}
+                    id={person._id}
+                    property="lastName"
+                    updateProperty={this.updateProperty}
+                  />
+                  <DynamicInput
+                    value={person.role}
+                    id={person._id}
+                    property="role"
+                    updateProperty={this.updateProperty}
+                  />
+                  <DynamicInput
+                    value={person.startDate}
+                    id={person._id}
+                    property="startDate"
+                    updateProperty={this.updateProperty}
+                    type="date"
+                  />
                 </tr>
               );
             })}
@@ -147,7 +180,13 @@ class NameTable extends Component {
               </td>
               <td>
                 {selectedPerson && selectedPerson.vacationStart ? (
-                  `${selectedPerson.vacationStart}`
+                  <DynamicInput
+                    value={selectedPerson.vacationStart}
+                    id={selectedPerson._id}
+                    property="startDate"
+                    updateProperty={this.updateProperty}
+                    type="date"
+                  />
                 ) : (
                   <input
                     name="vacationStart"
@@ -158,7 +197,13 @@ class NameTable extends Component {
               </td>
               <td>
                 {selectedPerson && selectedPerson.vacationEnd ? (
-                  `${selectedPerson.vacationEnd}`
+                  <DynamicInput
+                    value={selectedPerson.vacationEnd}
+                    id={selectedPerson._id}
+                    property="startDate"
+                    updateProperty={this.updateProperty}
+                    type="date"
+                  />
                 ) : (
                   <input
                     name="vacationEnd"
