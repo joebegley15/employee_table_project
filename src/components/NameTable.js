@@ -45,6 +45,7 @@ class NameTable extends Component {
   dropDownSelect(event) {
     const selectedPersonId = event.target.id;
     const selectedPerson = this.state.people.find(obj => {
+      console.log(obj._id, selectedPersonId, obj._id === selectedPersonId);
       return obj._id === selectedPersonId;
     });
     console.log(selectedPerson);
@@ -90,6 +91,7 @@ class NameTable extends Component {
 
   render() {
     const { selectedPerson } = this.state;
+    console.log(selectedPerson);
     return (
       <div className="person-form-wrapper">
         <Table dark>

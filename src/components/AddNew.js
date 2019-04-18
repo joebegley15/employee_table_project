@@ -9,7 +9,7 @@ class AddNew extends Component {
         lastName: null,
         role: null,
         startDate: null,
-        _id: Math.random()
+        _id: String(Math.random())
       }
     };
     this.updateProperty = this.updateProperty.bind(this);
