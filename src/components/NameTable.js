@@ -9,6 +9,7 @@ import {
 } from "reactstrap";
 import AddNew from "./AddNew";
 import DynamicInput from "./DynamicInput";
+
 class NameTable extends Component {
   constructor(props) {
     super(props);
@@ -45,10 +46,8 @@ class NameTable extends Component {
   dropDownSelect(event) {
     const selectedPersonId = event.target.id;
     const selectedPerson = this.state.people.find(obj => {
-      console.log(obj._id, selectedPersonId, obj._id === selectedPersonId);
       return obj._id === selectedPersonId;
     });
-    console.log(selectedPerson);
     this.setState({ selectedPerson });
   }
 
@@ -64,7 +63,6 @@ class NameTable extends Component {
 
   updateProperty(id, property, value, cb = () => {}) {
     const people = this.state.people.map(person => {
-      console.log(person._id, id);
       if (person._id === id) {
         person[property] = value;
       }
@@ -79,7 +77,6 @@ class NameTable extends Component {
       const property = event.target.name;
       const value = event.target.value;
       const people = this.state.people.map(person => {
-        console.log(person._id, personId);
         if (person._id === personId) {
           person[property] = value;
         }
@@ -91,7 +88,6 @@ class NameTable extends Component {
 
   render() {
     const { selectedPerson } = this.state;
-    console.log(selectedPerson);
     return (
       <div className="person-form-wrapper">
         <Table dark>
@@ -180,40 +176,40 @@ class NameTable extends Component {
                   </DropdownMenu>
                 </Dropdown>
               </td>
-              <td>
-                {selectedPerson && selectedPerson.vacationStart ? (
-                  <DynamicInput
-                    value={selectedPerson.vacationStart}
-                    id={selectedPerson._id}
-                    property="startDate"
-                    updateProperty={this.updateProperty}
-                    type="date"
-                  />
-                ) : (
+              {selectedPerson && selectedPerson.vacationStart ? (
+                <DynamicInput
+                  value={selectedPerson.vacationStart}
+                  id={selectedPerson._id}
+                  property="startDate"
+                  updateProperty={this.updateProperty}
+                  type="date"
+                />
+              ) : (
+                <td>
                   <input
                     name="vacationStart"
                     onBlur={this.updateVacation}
                     type="date"
                   />
-                )}
-              </td>
-              <td>
-                {selectedPerson && selectedPerson.vacationEnd ? (
-                  <DynamicInput
-                    value={selectedPerson.vacationEnd}
-                    id={selectedPerson._id}
-                    property="startDate"
-                    updateProperty={this.updateProperty}
-                    type="date"
-                  />
-                ) : (
+                </td>
+              )}
+              {selectedPerson && selectedPerson.vacationEnd ? (
+                <DynamicInput
+                  value={selectedPerson.vacationEnd}
+                  id={selectedPerson._id}
+                  property="startDate"
+                  updateProperty={this.updateProperty}
+                  type="date"
+                />
+              ) : (
+                <td>
                   <input
                     name="vacationEnd"
                     onBlur={this.updateVacation}
                     type="date"
                   />
-                )}
-              </td>
+                </td>
+              )}
             </tr>
           </tbody>
         </Table>
