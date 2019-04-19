@@ -20,12 +20,13 @@ class NameTable extends Component {
           firstName: "Joe",
           lastName: "Begley",
           role: "Developer",
-          startDate: "06-01-2019",
+          startDate: "2019-06-01",
           _id: String(Math.random()),
           vacationStart: null,
           vacationEnd: null
         }
       ],
+      sorted: null,
       showNewPersonField: false,
       dropdownOpen: false,
       selectedPerson: null
@@ -34,6 +35,8 @@ class NameTable extends Component {
     this.delete = this.delete.bind(this);
     this.dropDownSelect = this.dropDownSelect.bind(this);
     this.enablePerson = this.enablePerson.bind(this);
+    this.enableSort = this.enableSort.bind(this);
+    this.sort = this.sort.bind(this);
     this.toggle = this.toggle.bind(this);
     this.updateProperty = this.updateProperty.bind(this);
     this.updateVacation = this.updateVacation.bind(this);
@@ -50,7 +53,6 @@ class NameTable extends Component {
       console.log(person.id, event.target.id, person.id !== event.target.id);
       return person._id !== event.target.id;
     });
-    console.log(people);
     this.setState({ people });
   }
 
@@ -64,6 +66,22 @@ class NameTable extends Component {
 
   enablePerson() {
     this.setState({ showNewPersonField: true });
+  }
+
+  enableSort(sortValue) {
+    if (sortValue === this.state.sorted) {
+      this.setState({ sorted: null });
+    } else {
+      this.setState({ sorted: sortValue });
+    }
+  }
+
+  sort(array, key) {
+    return array.sort(function(a, b) {
+      var x = a[key];
+      var y = b[key];
+      return x < y ? -1 : x > y ? 1 : 0;
+    });
   }
 
   toggle() {
@@ -98,22 +116,53 @@ class NameTable extends Component {
   }
 
   render() {
-    const { selectedPerson } = this.state;
+    const { selectedPerson, sorted, people } = this.state;
+    let sortedPeople = people.slice(0);
+    if (sorted) {
+      this.sort(sortedPeople, sorted);
+    }
+    console.log(this.state);
     return (
       <div className="person-form-wrapper">
         <Table dark>
           <thead>
             <tr>
               <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Role</th>
-              <th>Start Date</th>
+              <th
+                onClick={() => this.enableSort("firstName")}
+                className={
+                  this.state.sorted === "firstName" ? "active-sort" : ""
+                }
+              >
+                First Name
+              </th>
+              <th
+                onClick={() => this.enableSort("lastName")}
+                className={
+                  this.state.sorted === "lastName" ? "active-sort" : ""
+                }
+              >
+                Last Name
+              </th>
+              <th
+                onClick={() => this.enableSort("role")}
+                className={this.state.sorted === "role" ? "active-sort" : ""}
+              >
+                Role
+              </th>
+              <th
+                onClick={() => this.enableSort("startDate")}
+                className={
+                  this.state.sorted === "startDate" ? "active-sort" : ""
+                }
+              >
+                Start Date
+              </th>
               <th>Delete</th>
             </tr>
           </thead>
           <tbody>
-            {this.state.people.map((person, i) => {
+            {sortedPeople.map((person, i) => {
               return (
                 <tr key={person._id}>
                   <th scope="row">{i + 1}</th>

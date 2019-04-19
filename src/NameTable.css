@@ -1,3 +1,7 @@
 .new-person {
   margin-bottom: 1rem;
 }
+
+.active-sort {
+  color: blue;
+}
