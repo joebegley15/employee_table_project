@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button } from "reactstrap";
 
 class AddNew extends Component {
   constructor(props) {
@@ -66,6 +67,15 @@ class AddNew extends Component {
           ) : (
             <input name="startDate" onBlur={this.updateProperty} type="date" />
           )}
+        </td>
+        <td>
+          <Button
+            id={this.state.person._id}
+            onClick={this.props.delete}
+            color="danger"
+          >
+            Delete
+          </Button>
         </td>
       </tr>
     );

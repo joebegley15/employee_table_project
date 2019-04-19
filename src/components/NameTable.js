@@ -9,6 +9,7 @@ import {
 } from "reactstrap";
 import AddNew from "./AddNew";
 import DynamicInput from "./DynamicInput";
+import "../NameTable.css";
 
 class NameTable extends Component {
   constructor(props) {
@@ -142,7 +143,11 @@ class NameTable extends Component {
                     type="date"
                   />
                   <td>
-                    <Button id={person._id} onClick={this.delete}>
+                    <Button
+                      id={person._id}
+                      onClick={this.delete}
+                      color="danger"
+                    >
                       Delete
                     </Button>
                   </td>
@@ -153,11 +158,18 @@ class NameTable extends Component {
               <AddNew
                 number={this.state.people.length + 1}
                 addPerson={this.addPerson}
+                delete={() => this.setState({ showNewPersonField: false })}
+                color="primary"
               />
             )}
           </tbody>
         </Table>
-        <Button active={this.state.formValid} onClick={this.enablePerson}>
+        <Button
+          active={this.state.formValid}
+          onClick={this.enablePerson}
+          color="primary"
+          className="new-person"
+        >
           Add New
         </Button>
         <Table dark>
