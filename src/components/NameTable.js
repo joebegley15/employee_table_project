@@ -30,6 +30,7 @@ class NameTable extends Component {
       selectedPerson: null
     };
     this.addPerson = this.addPerson.bind(this);
+    this.delete = this.delete.bind(this);
     this.dropDownSelect = this.dropDownSelect.bind(this);
     this.enablePerson = this.enablePerson.bind(this);
     this.toggle = this.toggle.bind(this);
@@ -41,6 +42,15 @@ class NameTable extends Component {
     const people = this.state.people;
     people.push(person);
     this.setState({ people, showNewPersonField: false });
+  }
+
+  delete(event) {
+    const people = this.state.people.filter(person => {
+      console.log(person.id, event.target.id, person.id !== event.target.id);
+      return person._id !== event.target.id;
+    });
+    console.log(people);
+    this.setState({ people });
   }
 
   dropDownSelect(event) {
@@ -98,6 +108,7 @@ class NameTable extends Component {
               <th>Last Name</th>
               <th>Role</th>
               <th>Start Date</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -130,6 +141,11 @@ class NameTable extends Component {
                     updateProperty={this.updateProperty}
                     type="date"
                   />
+                  <td>
+                    <Button id={person._id} onClick={this.delete}>
+                      Delete
+                    </Button>
+                  </td>
                 </tr>
               );
             })}
