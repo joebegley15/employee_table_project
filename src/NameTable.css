@@ -24,3 +24,7 @@ tr > th {
 tr > th:first-child {
   width: 10%;
 }
+
+tbody tr:hover {
+  cursor: text;
+}
