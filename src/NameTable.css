@@ -5,3 +5,22 @@
 .active-sort {
   color: blue;
 }
+
+input {
+  border: none;
+  background-image: none;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  color: white;
+  text-align: center;
+}
+
+tr > th {
+  width: 18%;
+}
+
+tr > th:first-child {
+  width: 10%;
+}
